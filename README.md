@@ -28,40 +28,41 @@ Developed by: Hemapriya P
 RegisterNumber: 212225040126 
 
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
-data = pd.read_csv("50_startups.csv")
-print(data.head())
-X = data['R&D Spend'].values
-y = data['Profit'].values
-X = (X - X.mean()) / X.std()
-y = (y - y.mean()) / y.std()
-m = 0
-c = 0
-L = 0.01
-epochs = 1000
-n = len(X)
-for i in range(epochs):
-    y_pred = m * X + c
-    D_m = (-2/n) * sum(X * (y - y_pred))
-    D_c = (-2/n) * sum(y - y_pred)
-    m = m - L * D_m
-    c = c - L * D_c
-print("Slope (m):", m)
-print("Intercept (c):", c)
-y_pred = m * X + c
-plt.scatter(X, y, color='blue')
-plt.plot(X, y_pred, color='red')
-plt.xlabel("R&D Spend")
-plt.ylabel("Profit")
-plt.title("Linear Regression using Gradient Descent")
+from sklearn.linear_model import SGDRegressor
+
+data = {
+    'Size': [1000, 1200, 1500, 1800, 2000],
+    'Price': [300000, 350000, 400000, 450000, 500000]
+}
+
+df = pd.DataFrame(data)
+
+X = df[['Size']]
+y = df['Price']
+
+model = SGDRegressor()
+
+model.fit(X, y)
+
+prediction = model.predict([[1600]])
+
+print("Predicted Price:", prediction[0])
+
+plt.scatter(X,y)
+
+plt.plot(X, model.predict(X))
+
+plt.xlabel("House Size")
+plt.ylabel("House Price")
+plt.title("House Price Prediction using SGD Regressor")
+
 plt.show()
 ```
 
 ## Output:
 
-<img width="856" height="833" alt="image" src="https://github.com/user-attachments/assets/69f338d6-7995-4d52-bd05-7c5190ac2da1" />
-
+<img width="1152" height="618" alt="image" src="https://github.com/user-attachments/assets/8c845906-86db-45f1-9253-2112e5398c03" />
 
 ## Result:
 Thus the program to implement the linear regression using gradient descent is written and verified using python programming.
